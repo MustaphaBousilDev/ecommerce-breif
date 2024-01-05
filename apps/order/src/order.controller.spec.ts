@@ -1,22 +1,33 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { OrderController } from './order.controller';
+import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
 import { OrderService } from './order.service';
+import { Order } from './order.model';
 
-describe('OrderController', () => {
-  let orderController: OrderController;
+@Controller('orders')
+export class OrderController {
+  constructor(private readonly orderService: OrderService) {}
 
-  beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      controllers: [OrderController],
-      providers: [OrderService],
-    }).compile();
+  @Post()
+  async createOrder(@Body() orderData: Partial<Order>): Promise<Order> {
+    return this.orderService.createOrder(orderData);
+  }
 
-    orderController = app.get<OrderController>(OrderController);
-  });
+  @Get()
+  async getAllOrders(): Promise<Order[]> {
+    return this.orderService.getAllOrders();
+  }
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(orderController.getHello()).toBe('Hello World!');
-    });
-  });
-});
+  @Get(':id')
+  async getOrderById(@Param('id') orderId: string): Promise<Order | null> {
+    return this.orderService.getOrderById(orderId);
+  }
+
+  @Patch(':id')
+  async updateOrder(@Param('id') orderId: string, @Body() updateData: Partial<Order>): Promise<Order | null> {
+    return this.orderService.updateOrder(orderId, updateData);
+  }
+
+  @Delete(':id')
+  async deleteOrder(@Param('id') orderId: string): Promise<Order | null> {
+    return this.orderService.deleteOrder(orderId);
+  }
+}

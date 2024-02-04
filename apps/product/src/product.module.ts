@@ -4,9 +4,18 @@ import { ProductService } from './product.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { CategoriesModule } from './categories/categories.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ProductsModule } from './products/products.module';
+import { UsersModule } from './users/users.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
-  imports: [PrismaModule, CategoriesModule],
+  imports: [
+    PrismaModule,
+    CategoriesModule,
+    ProductsModule,
+    UsersModule,
+    CloudinaryModule,
+  ],
   controllers: [ProductController],
   providers: [
     ProductService,

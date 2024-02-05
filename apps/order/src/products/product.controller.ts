@@ -20,6 +20,7 @@ export class ProductController {
   async create(@Body() productData: Partial<Product>): Promise<Product> {
     return this.productService.create(productData);
   }
+  
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() productData: Partial<Product>): Promise<Product> {

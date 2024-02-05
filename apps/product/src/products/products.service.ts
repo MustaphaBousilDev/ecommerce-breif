@@ -22,12 +22,12 @@ export class ProductsService {
     const category = await this.prisma.categories.findUnique({
       where: { id: createProductDto.categoryId },
     });
-
     if (!category) {
       throw new NotFoundException('Category does not exist');
     }
 
     const url = await this.createImage(file);
+    console.log(url);
 
     const product = {
       name: createProductDto.name,

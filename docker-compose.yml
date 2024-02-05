@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  order:
+    build:
+      context: .
+      dockerfile: apps/order/dockerfile
+    ports:
+      - '5002:5002'
+    command: npm run start:dev order

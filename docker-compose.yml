@@ -1,10 +1,92 @@
-version: '3.8'
-
 services:
-  order:
+  products:
+    image: products
     build:
       context: .
-      dockerfile: apps/order/dockerfile
+      # dockerfile: ./apps/reservations/Dockerfile
+      args:
+        - APP=product
+      target: development
+    restart: always
+      
+    command: npm run start:dev products
+    #if each microservice has own envirement vairiable
+    env_file:
+      - ./apps/product/.env
+    ports:
+      - '5004:5004'
+    container_name: products
+    # volumes:
+    #   - .:/usr/src/app
+  order:
+    image: orders
+    build:
+      context: .
+      # dockerfile: ./apps/reservations/Dockerfile
+      args:
+        - APP=order
+      target: development
+    restart: always
+    command: npm run start:dev order
+    #if each microservice has own envirement vairiable
+    env_file:
+      - ./apps/order/.env
     ports:
       - '5002:5002'
-    command: npm run start:dev order
+    container_name: order
+    # volumes:
+    #   - .:/usr/src/app
+  cart:
+    image: cart
+    build:
+      context: .
+      # dockerfile: ./apps/reservations/Dockerfile
+      args:
+        - APP=cart
+      target: development
+    restart: always
+    command: npm run start:dev cart
+    #if each microservice has own envirement vairiable
+    env_file:
+      - ./apps/cart/.env
+    ports:
+      - '3002:3002'
+    container_name: orders
+    # volumes:
+    #   - .:/usr/src/app
+  auth:
+    image: auth
+    build:
+      context: .
+      # dockerfile: ./apps/reservations/Dockerfile
+      args:
+        - APP=auth
+      target: development
+    restart: always
+    command: npm run start:dev auth
+    #if each microservice has own envirement vairiable
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - '3001:3001'
+    container_name: auth
+    # volumes:
+    #   - .:/usr/src/app
+  payments:
+    image: payments
+    build:
+      context: .
+      # dockerfile: ./apps/reservations/Dockerfile
+      args:
+        - APP=payment
+      target: development
+    restart: always
+    command: npm run start:dev payments
+    #if each microservice has own envirement vairiable
+    env_file:
+      - ./apps/payment/.env
+    ports:
+      - '3006:3006'
+    container_name: payments
+    # volumes:
+    #   - .:/usr/src/app
